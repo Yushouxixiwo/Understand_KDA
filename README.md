@@ -15,3 +15,13 @@ python -m http.server 8000
 在 Settings → Pages → Build and deployment 中选择 GitHub Actions。主分支推送后由 Pages workflow 发布。
 
 示例交互和数据流仅用于教学，不代表 NPU 实测性能。
+
+## 交互微课
+
+[开始 20 分钟微课](https://yushouxixiwo.github.io/Understand_KDA/course.html)
+
+7 节：标准 Attention / FlashAttention → 归一化线性 Attention → Delta Rule → Gated DeltaNet → KDA → Chunk 等价变换 → Decode / Prefill 与 PyPTO 优化。
+
+每节包含目标、公式推导、小维度数值实验、讲解稿、自测和本机学习进度。网页无需登录，不上传学习数据。
+
+公式检查：`node tests/course-math.test.cjs`（在线 Softmax、状态法、Delta 更新、非零初始状态与尾块的 chunk 对照）。部署工作流也会运行这些检查。
