@@ -34,7 +34,7 @@ const $=id=>document.getElementById(id);
 const fmt=(a,n=3)=>'['+a.map(x=>x.toFixed(n)).join(', ')+']';
 let saved={correct:[],lesson:0};
 try{const d=JSON.parse(localStorage.getItem('kda-course-v1')||'null');if(d&&Array.isArray(d.correct))saved={correct:[...new Set(d.correct.filter(n=>Number.isInteger(n)&&n>=0&&n<7))],lesson:Number.isInteger(d.lesson)&&d.lesson>=0&&d.lesson<7?d.lesson:0};}catch{}
-let current=saved.lesson;
+let current=0; // Enter from the beginning; explicit lesson hashes still support deep links.
 function save(){saved.lesson=current;try{localStorage.setItem('kda-course-v1',JSON.stringify(saved));}catch{}}
 function updateProgress(){const n=saved.correct.length;$('progress-text').textContent=n+' / 7';$('progress-fill').style.width=(n/7*100)+'%';$('recap-score').textContent=`已通过 ${n} / 7 节自测。${n===7?'你已完成全部自测，可以回到实验室继续检验直觉。':'可从目录回到未通过的小节补做自测。'}`;document.querySelectorAll('.lesson-button').forEach((b,i)=>{b.classList.toggle('active',i===current);b.setAttribute('aria-current',i===current?'step':'false');b.querySelector('.check').textContent=saved.correct.includes(i)?'✓':'';b.querySelector('.check').setAttribute('aria-label',saved.correct.includes(i)?'已通过':'');});}
 function navigate(index,focus=true){current=Math.max(0,Math.min(6,index));save();render();const hash='#lesson-'+(current+1);if(location.hash!==hash)history.replaceState(null,'',hash);if(focus){$('lesson-title').focus({preventScroll:true});$('lesson-title').scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});}}
@@ -57,7 +57,7 @@ U, W, P = precompute_all_chunks(Q, K, V, g, beta)
 for c in chunk_order:
     R = U[c] - W[c] @ S
     O[c] = Qplus[c] @ S + P[c] @ R
-    S = decay[c] * S + Kend[c].T @ R</pre><a class="callout-link" href="index.html#implementation">查看 Tensor / Pro 实现思路对照 ↗</a>`;}};document.querySelectorAll('[data-opt]').forEach(b=>b.addEventListener('click',()=>{mode=b.dataset.opt;document.querySelectorAll('[data-opt]').forEach(x=>x.classList.toggle('active',x===b));update();}));update();}
+    S = decay[c] * S + Kend[c].T @ R</pre><a class="callout-link" href="lab.html#implementation">查看 Tensor / Pro 实现思路对照 ↗</a>`;}};document.querySelectorAll('[data-opt]').forEach(b=>b.addEventListener('click',()=>{mode=b.dataset.opt;document.querySelectorAll('[data-opt]').forEach(x=>x.classList.toggle('active',x===b));update();}));update();}
 const experiments=[expAttention,expLinear,expDelta,expGate,expKda,expChunk,expOptimize];
 const initialHash=location.hash.match(/^#lesson-([1-7])$/);if(initialHash)current=Number(initialHash[1])-1;
 window.addEventListener('hashchange',()=>{const match=location.hash.match(/^#lesson-([1-7])$/);if(match)navigate(Number(match[1])-1,false);});
