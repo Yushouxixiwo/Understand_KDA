@@ -25,3 +25,22 @@ for(const n of [1,3,7,16,19,64])for(const c of [1,2,4,8,16,32]){
  assert(err<1e-11,`chunk mismatch n=${n}, C=${c}, err=${err}`);maxError=Math.max(maxError,err);
 }
 console.log(`PASS: online softmax, linear-state equivalence, overwrite endpoints, KDA recurrence, 36 chunk cases (tails/nonzero state). Max chunk error=${maxError}.`);
+
+const F=require('../course-foundations.js');
+const worked=F.linearStory();
+assert.deepEqual(worked.scores,[4,5,6]);
+assert.deepEqual(worked.S,[100,110]);
+assert.deepEqual(worked.z,[5,5]);
+assert.equal(worked.numerator,320);
+assert.equal(worked.denominator,15);
+assert.equal(worked.out,320/15);
+for(let n=1;n<=3;n++)for(const a of [0,.1,.5,1,1.7,2]){
+ const x=F.linearStory(n,[a,1]);
+ assert(Math.abs(x.numerator-x.stateNumerator)<1e-10);
+ assert(Math.abs(x.denominator-x.stateDenominator)<1e-10);
+ assert(Math.abs(x.out-x.stateOut)<1e-12);
+ assert.deepEqual(x.S,F.linearStory(n,[0,1]).S,'S must be independent of query');
+ assert.deepEqual(x.z,F.linearStory(n,[0,1]).z,'z must be independent of query');
+}
+assert.equal(Object.values(F.overrides).reduce((s,x)=>s+x.time,0),30);
+console.log('PASS: beginner worked example (320/15), query-independent S/z, 18 state/explicit comparisons, and 30-minute lesson budget.');
