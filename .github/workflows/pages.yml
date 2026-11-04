@@ -28,7 +28,7 @@ jobs:
       - name: Prepare website artifact
         run: |
           mkdir -p _site
-          cp index.html lab.html style.css app.js course.html course.css course.js course-math.js course-foundations.js _site/
+          cp index.html lab.html style.css app.js course.html course.css course.js course-math.js course-foundations.js mc2-study.html _site/
           touch _site/.nojekyll
       - name: Setup Pages
         uses: actions/configure-pages@v5
