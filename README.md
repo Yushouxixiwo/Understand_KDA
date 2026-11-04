@@ -1,32 +1,25 @@
-# Understand KDA
+# Operator Learning Notes
 
-Kimi Delta Attention 中文交互讲解网页：逐通道衰减、Delta Rule 状态更新、Decode / Prefill 优化与 PyPTO 实现思路。
+交互式算子与高性能计算学习站，当前包含 Kimi Delta Attention（KDA）和昇腾 CANN 通算融合算子（MC²）两个专题。
+
+## 在线目录
+
+[打开专题学习目录](https://yushouxixiwo.github.io/operator-learning-notes/)
+
+- **KDA 微课**：从 Attention / FlashAttention、线性 Attention 到 Delta Rule、Gated DeltaNet 和 Kimi Delta Attention。
+- **KDA 实验室**：交互探索逐通道衰减、状态更新，以及 Decode / Prefill 优化思路。
+- **MC² 微课**：理解通信与计算的流水重叠、MoE Dispatch / Combine 应用与性能边界。
 
 ## 本地预览
 
-```bash
-python -m http.server 8000
-```
-
-打开 http://localhost:8000 。网页无需安装依赖或构建。
+运行 `python -m http.server 8000`，然后打开 http://localhost:8000 。网页无需安装依赖或构建。
 
 ## GitHub Pages
 
 在 Settings → Pages → Build and deployment 中选择 GitHub Actions。主分支推送后由 Pages workflow 发布。
 
-示例交互和数据流仅用于教学，不代表 NPU 实测性能。
+## 验证与说明
 
-## 交互微课
+KDA 微课公式检查：`node tests/course-math.test.cjs`。
 
-[开始 30 分钟微课](https://yushouxixiwo.github.io/Understand_KDA/)
-
-7 节：标准 Attention / FlashAttention → 归一化线性 Attention → Delta Rule → Gated DeltaNet → KDA → Chunk 等价变换 → Decode / Prefill 与 PyPTO 优化。
-
-每节包含目标、公式推导、小维度数值实验、讲解稿、自测和本机学习进度。网页无需登录，不上传学习数据。
-
-公式检查：`node tests/course-math.test.cjs`（在线 Softmax、状态法、Delta 更新、非零初始状态与尾块的 chunk 对照）。部署工作流也会运行这些检查。
-
-
-首页现在默认从第 1 节开始，保存自测进度不会跳过前置知识。原 KDA 实验室移至 [lab.html](https://yushouxixiwo.github.io/Understand_KDA/lab.html)，旧微课地址 course.html 仍可使用。
-
-新增基础解释：q/k/v、点积、权重、φ 特征转换、S/z 各自的来源与形状。第 2 节使用三条记录，从 4/5/6 分数到 320/15 输出，再逐步整理出 S=[100,110]ᵀ、z=[5,5]ᵀ。六步交互支持改变问题和历史记录数。各节提供符号速查，梯度推导改为可选内容。
+交互中的小维度计算和数据流示意仅用于教学，不代表模型质量评测或目标硬件实测性能。MC² 的 API、支持设备与版本请以昇腾官方文档为准。
